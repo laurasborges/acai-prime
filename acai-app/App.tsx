@@ -1,4 +1,3 @@
-import { Ionicons,Fea } from '@expo/vector-icons';
 import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View ,TextInput} from 'react-native';
 import Header from './components/Header';
 import Footer from './components/Footer';
