@@ -1,7 +1,23 @@
-import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Ionicons,Fea } from '@expo/vector-icons';
+import { Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, View ,TextInput} from 'react-native';
 import Header from './components/Header';
+import Footer from './components/Footer';
+import { useState } from 'react';
+import CustomButton from './components/CustomButton';
+
  
 export default function App() {
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleOrder = () => {
+    if (name.trim() === '') {
+      
+      setMessage('Por favor, informe seu nome')
+    } else {
+      setMessage(`Olá, ${name}! Pedido iniciado com sucesso.`)
+    }
+  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -44,48 +60,71 @@ export default function App() {
           <View style={styles.containerMenu}>
  
             <View style={styles.cardMenu}>
+              <Image source={require('./assets/acai-tradicional.png')}></Image>
               <Text style={styles.titleMenu}>Açaí Tradicional</Text>
               <Text style={styles.descriptionMenu}>Açaí cremoso com banana e granola tradicional</Text>
+              <View style={styles.rowMenu}>
               <Text style={styles.priceMenu}>R$14,00</Text>
               <View style={styles.buttonAdd}>
                 <Image style={styles.imgbutton}  source={require('./assets/icon-container.png')}></Image>
+                </View>
               </View>
             </View>
  
             <View style={styles.cardMenu}>
+              <Image source={require('./assets/copo-acai.png')}></Image>
               <Text style={styles.titleMenu}>Copo Tropical</Text>
               <Text style={styles.descriptionMenu}>Camadas de açaí, morango, kiwi e leite em pó</Text>
+              <View style={styles.rowMenu}>
               <Text style={styles.priceMenu}>R$18,50</Text>
               <View style={styles.buttonAdd}>
                 <Image style={styles.imgbutton}  source={require('./assets/icon-container.png')}></Image>
               </View>
+              </View>
             </View>
  
             <View style={styles.cardMenu}>
+              <Image source={require('./assets/vitamina-acai.png')}></Image>
               <Text style={styles.titleMenu}>Vitamina de Açaí</Text>
               <Text style={styles.descriptionMenu}>Bebida energética batida com guaraná e aveia</Text>
+              <View style={styles.rowMenu}>
               <Text style={styles.priceMenu}>R$12,00</Text>
               <View style={styles.buttonAdd}>
                 <Image style={styles.imgbutton} source={require('./assets/icon-container.png')}></Image>
               </View>
+              </View>
             </View>
  
             <View style={styles.cardMenu}>
+              <Image source={require('./assets/tigela-acai.png')}></Image>
               <Text style={styles.titleMenu}>Açaí Fit Zero</Text>
               <Text style={styles.descriptionMenu}>Zero adição de açúcar, com chia </Text>
+              <View style={styles.rowMenu}>
               <Text style={styles.priceMenu}>R$16,90</Text>
               <View style={styles.buttonAdd}>
                 <Image style={styles.imgbutton}  source={require('./assets/icon-container.png')}></Image>
               </View>
+              </View>
             </View>
  
           </View>
- 
+
+          <View style={styles.orderSection}>
+            <Text style={styles.question}>Qual é o seu nome?</Text>
+            <TextInput 
+            style={styles.input}
+            placeholder='Digite seu nome'
+            value={name}
+            onChangeText={setName}
+            ></TextInput>
+            <CustomButton title="Fazer meu pedido" onPress={handleOrder}/>
+            {message !== '' && <Text style={styles.messageText}>{message}</Text>}
+          </View>
         </View>
         {/* Conteúdo */}
  
         {/* Footer */}
- 
+        <Footer/>
         {/* Footer */}
  
       </ScrollView>
@@ -99,29 +138,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#FBF9FC',
   },
   content: {
-    paddingHorizontal: 24
+    paddingHorizontal: 22
   },
  
   card: {
     backgroundColor: '#ffffff',
     borderRadius: 24,
-    padding: 16,
     shadowColor: '#2C1B300F',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.5,
     elevation: 3,
-    margin: 16
+    marginTop: 16,
+    padding: 16
   },
  
   insidecard: {
-    margin: 8
+    margin: 8,
   },
  
   image: {
-    width: 318,
-    height: 160,
     borderRadius: 16,
- 
+    width: '100%'
   },
  
   startTitle: {
@@ -138,7 +175,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: 2,
+    
   },
  
   featuredTitle: {
@@ -184,17 +221,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#7B1FA2',
     display: 'flex',
     alignItems: 'flex-end',
+    gap:5,
     justifyContent: 'center',
     flexDirection: 'row',
     padding: 6,
     borderRadius: 20,
     width: 109,
-    height: 31
+    height: 31,
+    
   },
  
   featuredImage: {
     width: 14,
-    marginRight: 6,
     marginBottom: 2
   },
  
@@ -232,7 +270,7 @@ const styles = StyleSheet.create({
     padding: 14,
     width: '48%',
     marginTop: 16,
-    elevation: 2,
+    elevation: 2
   },
  
   titleMenu: {
@@ -240,16 +278,17 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#2C1B30',
     marginBottom: 4,
+    marginTop: 10
   },
  
   descriptionMenu: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#644D6A',
-    marginBottom: 12,
+    marginBottom: 16,
   },
  
   priceMenu: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '800',
     color: '#7B1FA2',
   },
@@ -257,18 +296,67 @@ const styles = StyleSheet.create({
   buttonAdd: {
     backgroundColor: '#7B1FA2',
     borderRadius: 70,
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
-    width: 40,
-    height: 40,
-    alignSelf: 'flex-end'
+    width: 30,
+    height: 30,
 
   },
 
   imgbutton:{
-    width: 18
+    width: 15
+  },
+
+  rowMenu:{
+    display:'flex',
+    flexDirection: 'row',
+    justifyContent:  'space-between',
+    alignItems: 'center'
+  },
+
+  orderSection: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.05,
+    elevation: 4,
+    padding: 16,
+    marginTop: 25
+  },
+
+  question: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#2f2d2c",
+    marginBottom: 16
+  },
+
+  input:{
+    backgroundColor: "#F1EDF4",
+    color: '#644D6A',
+    borderRadius: 16,
+    width: "100%",
+    height: 56,
+    paddingHorizontal: 20,
+    fontSize: 16,
+    flexDirection: 'row'
+  },
+
+  messageText:{
+    fontSize: 16,
+    fontWeight: "800",
+    textAlign:'center',
+    marginTop: 15,
+    borderRadius:12,
+    padding:12,
+    backgroundColor: '#E8F5E9',
+    color: '#2E7D32'
+  },
+
+  messageimg:{
+
+
   }
  
 });
